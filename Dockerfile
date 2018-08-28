@@ -20,7 +20,9 @@ FROM	ubuntu
 RUN     apt-get update && \
         apt-get install -y \
         libxml2 libcurl4 libaprutil1 vim
-RUN	mkdir /var/log/nginx
+RUN	useradd nginx && \
+        mkdir -p /var/log/nginx /usr/local/nginx/client_body_temp && \
+	chown nginx:nginx /var/log/nginx /usr/local/nginx/client_body_temp
 COPY   --from=builder /usr/local/nginx/sbin/nginx /usr/sbin
 CMD	nginx -g 'daemon off;'
 EXPOSE	80
